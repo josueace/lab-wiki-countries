@@ -1,26 +1,52 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
+import NavBar from "./components/NavBar";
+import countries from "./countries.json";
+import Country from "./components/Country";
+import CountryDetail from "./components/CountryDetail";
+import { Switch, Route } from "react-router-dom";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const styles = {
+  maxHeight: "90vh",
+  overflow: "scroll"
+};
+
+class App extends Component {
+  state = {
+    countries: countries
+  };
+
+  showCountries = () => {
+    const countryList = this.state.countries.map(country => {
+      return <Country country={country} />;
+    });
+    return countryList;
+  };
+
+
+
+  render() {
+   
+    return (
+      <div className="App">
+        <NavBar />
+        <div className="container">
+          <div className="row">
+            <div className="col-5" style={styles}>
+              <div className="list-group" style={{ textAlign: "left" }}>
+                {this.showCountries()}
+              </div>
+            </div>
+            <Route
+              exact
+              path="/country/:cca3"
+              component={CountryDetail}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
